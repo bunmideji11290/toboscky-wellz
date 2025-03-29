@@ -610,8 +610,8 @@ export const mockAccounts: Account[] = [
     },
     bank_details: {
       account_type: "Checking",
-      balance_usd: 375600.0,
-      savings_balance_usd: 75000.0,
+      balance_usd: 568990.0,
+      savings_balance_usd: 120000.0,
       investment_balance_usd: 2800000.0,
     },
     transaction_mgs_code: {
@@ -621,6 +621,30 @@ export const mockAccounts: Account[] = [
       wireDate: false,
     },
     transaction_history: [
+      {
+        transaction_id: "TXN001",
+        dateTime: "March 25, 2025, 18:10:22 pm",
+        description: "Rental Income from ABC Holdings",
+        status: "Success",
+        amount_usd: 12000.0,
+        account_no: "****3746",
+      },
+      {
+        transaction_id: "TXN001",
+        dateTime: "February 22, 2025, 14:05:00 pm",
+        description: "Rental Income from ABC Holdings",
+        status: "Success",
+        amount_usd: 18850.0,
+        account_no: "****3746",
+      },
+      {
+        transaction_id: "TXN00474",
+        dateTime: "January 16, 2025, 10:13:02 am",
+        description: "Rental Income from ABC Holdings",
+        status: "Success",
+        amount_usd: 35000.0,
+        account_no: "****3746",
+      },
       {
         transaction_id: "TXN001",
         dateTime: "August 25, 2024, 9:15:00 am",
