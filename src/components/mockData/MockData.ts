@@ -617,7 +617,7 @@ export const mockAccounts: Account[] = [
     transaction_mgs_code: {
       transaction_text_msg:
         "Please enter the code sent to you, to continue this transaction.",
-      transaction_code: "29372326437846234234234523463",
+      transaction_code: "237589",
       wireDate: false,
     },
     transaction_history: [
