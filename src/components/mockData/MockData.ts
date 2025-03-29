@@ -618,6 +618,7 @@ export const mockAccounts: Account[] = [
       transaction_text_msg:
         "Please enter the code sent to you, to continue this transaction.",
       transaction_code: "237589",
+      lastStepText: "Transaction Pending..",
       wireDate: false,
     },
     transaction_history: [

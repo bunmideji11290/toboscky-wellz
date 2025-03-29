@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import CustomDropdown from "./CustomDropdown";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import CodeForm from "./CodeForm";
 import { Account } from "@/utils/types";
+import { Dialog, Transition } from "@headlessui/react";
+import Link from "next/link";
 
 const bankOptions = [
   {
@@ -45,6 +47,7 @@ export default function Transfer() {
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [issueMsg, setIssueMsg] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
     // Get the item from localStorage
@@ -100,13 +103,64 @@ export default function Transfer() {
     return (
       <div className="">
         {issueMsg ? (
-          <div className="w-[90%] mx-auto py-[20px]">
-            <p className="text-[14px] text-zinc-700">
-              Currently, an issue exists that requires your attention. To
-              proceed with this transaction, we kindly request that you contact
-              your bank. Thank you for your cooperation.
-            </p>
-          </div>
+          <Transition appear show={isOpen} as={Fragment}>
+            <Dialog
+              as="div"
+              className="relative z-10"
+              onClose={() => setIsOpen(false)}
+            >
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <div className="fixed inset-0 bg-black bg-opacity-25"></div>
+              </Transition.Child>
+
+              <div className="fixed inset-0 overflow-y-auto">
+                <div className="flex min-h-full items-center justify-center p-4 text-center">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                  >
+                    <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                      <div className="mt-4">
+                        {user?.transaction_mgs_code.lastStepText ? (
+                          <p className="text-lg font-medium leading-6 text-gray-9000">
+                            {user?.transaction_mgs_code.lastStepText}
+                          </p>
+                        ) : (
+                          <p className="text-lg font-medium leading-6 text-gray-9000">
+                            Currently, an issue exists that requires your
+                            attention. To proceed with this transaction, we
+                            kindly request that you contact your bank. Thank you
+                            for your cooperation.
+                          </p>
+                        )}
+                      </div>
+                      <div className="mt-4">
+                        <Link
+                          href="/dashboard"
+                          className="flex justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                        >
+                          Go Home
+                        </Link>
+                      </div>
+                    </Dialog.Panel>
+                  </Transition.Child>
+                </div>
+              </div>
+            </Dialog>
+          </Transition>
         ) : (
           <>
             <div className="w-[90%] mx-auto py-[20px]">
@@ -128,6 +182,7 @@ export default function Transfer() {
                 showIssueMsg={showIssueMsg}
                 loading={loading}
                 setLoading={setLoading}
+                user={user}
               />
             </div>
           </>
@@ -190,17 +245,25 @@ export default function Transfer() {
           />
         </div>
       </div>
-      <div className={`w-[90%] mx-auto ${user?.transaction_mgs_code.wireDate === true ? "" : "mb-[30px]"}`}>
+      <div
+        className={`w-[90%] mx-auto ${
+          user?.transaction_mgs_code.wireDate === true ? "" : "mb-[30px]"
+        }`}
+      >
         <span className="text-zinc-600 text-[12px]">
           Your daily limit is $250,000.00
         </span>
       </div>
-        <div className={`w-[90%] mx-auto py-[10px] border-b mb-[20px] ${user?.transaction_mgs_code.wireDate === true ? "" : "hidden"}`}>
-          <span className="text-zinc-500 text-[12px]">Wire date</span>
-          <div className="relative flex justify-between items-center">
-            <span className="text-[14px] text-zinc-700">{currentDate}</span>
-          </div>
+      <div
+        className={`w-[90%] mx-auto py-[10px] border-b mb-[20px] ${
+          user?.transaction_mgs_code.wireDate === true ? "" : "hidden"
+        }`}
+      >
+        <span className="text-zinc-500 text-[12px]">Wire date</span>
+        <div className="relative flex justify-between items-center">
+          <span className="text-[14px] text-zinc-700">{currentDate}</span>
         </div>
+      </div>
       <div className="w-[90%] mx-auto">
         <button
           type="submit"
